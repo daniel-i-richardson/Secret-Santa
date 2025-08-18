@@ -37,6 +37,12 @@ def create_secret_santa_list(from_people):
         
     return secret_santa_list
 
+def random_exclude(start, end, exclude):
+    choices = [i for i in range(start, end + 1) if i not in exclude]
+    if not choices:
+        raise ValueError("No valid numbers to choose from.")
+    return random.choice(choices)
+
 def generate_formatted_list(secret_santa_list):
     formatted_list = ""
     for giver, reciever in secret_santa_list.items():
@@ -48,16 +54,6 @@ def generate_formatted_list(secret_santa_list):
 def clear_text():
     os.system('cls' if os.name=='nt' else 'clear')
 
-
-def random_exclude(start, end, exclude):
-    choices = [i for i in range(start, end + 1) if i not in exclude]
-    if not choices:
-        raise ValueError("No valid numbers to choose from.")
-    return random.choice(choices)
-
 if __name__ == "__main__":
     main()
 
-class Test:
-    def test_randomization():
-        name_list = [Jim, Brenda, Katie, Matt, Daniel, Susanna]
