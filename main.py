@@ -11,8 +11,8 @@ def main():
         person = input("Enter name: ").strip()
 
         if person == "":
-            recipients = create_secret_santa_list(people)
-            print(generate_formatted_list(people, recipients))
+            secret_santa_list = create_secret_santa_list(people)
+            print(generate_formatted_list(secret_santa_list))
             break
         
         if validate_name(person, people):
@@ -27,23 +27,19 @@ def validate_name(new_name, people):
     return True
 
 def create_secret_santa_list(from_people):
-    to_people = []
+    secret_santa_list = {}
     exclude_list = []
 
     for person in from_people:
         selected_index = random_exclude(0, len(from_people) - 1, exclude_list)
-        to_people.append(from_people[selected_index])
         exclude_list.append(selected_index)
+        secret_santa_list.update({person: from_people[selected_index]})
+        
+    return secret_santa_list
 
-    return to_people
-
-def generate_formatted_list(from_people, to_people):
-    if len(from_people) is not len(to_people):
-        print("ERROR: List lengths do not match")
-        return
-
+def generate_formatted_list(secret_santa_list):
     formatted_list = ""
-    for giver, reciever in zip(from_people, to_people):
+    for giver, reciever in secret_santa_list.items():
         formatted_list += f"{giver} 👉 {reciever}\n"
     
     return formatted_list.strip()
@@ -65,4 +61,3 @@ if __name__ == "__main__":
 class Test:
     def test_randomization():
         name_list = [Jim, Brenda, Katie, Matt, Daniel, Susanna]
-        
