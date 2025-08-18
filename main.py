@@ -39,11 +39,12 @@ def create_secret_santa_list(from_people):
         raise ValueError("Need at least 2 participants")
     
     to_people = from_people[:]
-    random.shuffle(to_people)
 
     while True:
-        if all(a != b for a, b in zip(from_people, to_people)):
-            return dict(zip(from_people, to_people))
+        random.shuffle(to_people)
+        secret_santa_list = zip(from_people, to_people)
+        if all(a != b for a, b in secret_santa_list):
+            return dict(secret_santa_list)
         else:
             random.shuffle(to_people)
 
