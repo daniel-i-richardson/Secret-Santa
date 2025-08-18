@@ -37,12 +37,15 @@ def validate_name(new_name, people):
 def create_secret_santa_list(from_people):
     if len(from_people) < 2:
         raise ValueError("Need at least 2 participants")
-    # Shuffle a working copy, then rotate by one so no one gets themselves
-    order = from_people[:]
-    random.shuffle(order)
-    rotated = order[1:] + order[:1]
-    return dict(zip(order, rotated))
+    
+    to_people = from_people[:]
+    random.shuffle(to_people)
 
+    while True:
+        if all(a != b for a, b in zip(from_people, to_people)):
+            return dict(zip(from_people, to_people))
+        else:
+            random.shuffle(to_people)
 
 def generate_formatted_list(secret_santa_list):
     formatted_list = ""
