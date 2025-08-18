@@ -1,4 +1,4 @@
-from main import create_secret_santa_list
+from main import create_secret_santa_list, generate_formatted_list
 
 def test_randomization():
     name_list = ["Jim", "Brenda", "Katie", "Matt", "Evelyn", "Daniel", "Susanna", "Nathan", "Tatiana", "Patrick", "Marjorie", "Harry", "Hannah", "Ben", "Zachary"]

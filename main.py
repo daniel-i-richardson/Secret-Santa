@@ -21,27 +21,28 @@ def main():
         else:
             print(f"{person} is already in the Secret Santa list!")
 
+def test_main():
+    people = ["Jim", "Brenda", "Katie", "Nathan", "Hannah", "Zachary"]
+
+    for i in range(10):
+        ss_list = create_secret_santa_list(people)
+        print(generate_formatted_list(ss_list))
+        print("\n\n")
+
 def validate_name(new_name, people):
     if new_name in people:
         return False
     return True
 
 def create_secret_santa_list(from_people):
-    secret_santa_list = {}
-    exclude_list = []
+    if len(from_people) < 2:
+        raise ValueError("Need at least 2 participants")
+    # Shuffle a working copy, then rotate by one so no one gets themselves
+    order = from_people[:]
+    random.shuffle(order)
+    rotated = order[1:] + order[:1]
+    return dict(zip(order, rotated))
 
-    for person in from_people:
-        selected_index = random_exclude(0, len(from_people) - 1, exclude_list)
-        exclude_list.append(selected_index)
-        secret_santa_list.update({person: from_people[selected_index]})
-        
-    return secret_santa_list
-
-def random_exclude(start, end, exclude):
-    choices = [i for i in range(start, end + 1) if i not in exclude]
-    if not choices:
-        raise ValueError("No valid numbers to choose from.")
-    return random.choice(choices)
 
 def generate_formatted_list(secret_santa_list):
     formatted_list = ""
