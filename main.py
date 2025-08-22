@@ -1,25 +1,32 @@
 import os
-import random
+from secret_santa import Secret_Santa, DuplicateNameException, InsufficientNamesException
 
 def main():
-    people = []
+    ss = Secret_Santa()
     
     while True:
-        if len(people) > 0:
-            print("Secret Santas: " + ", ".join(people))
-        
-        person = input("Enter name: ").strip()
+        person = ""
+        if len(ss.people) > 0:
+            print("Secret Santas: " + ", ".join(ss.people))
 
-        if person == "":
-            secret_santa_list = create_secret_santa_list(people)
-            print(generate_formatted_list(secret_santa_list))
-            break
-        
-        if validate_name(person, people):
-            people.append(person)
+        try:
+            person = input("Enter name: ").strip()
+            ss.append(person)
+
             clear_text()
-        else:
-            print(f"{person} is already in the Secret Santa list!")
+        except DuplicateNameException:
+            print("You're attempting to add a name that already exists in the Secret Santa list.")
+        
+        if person == "":
+            try:
+                print(ss)
+                break
+            except InsufficientNamesException:
+                print("Your Secret Santa list must contain two or more participants")
+
+        
+        
+
 
 def test_main():
     people = ["Jim", "Brenda", "Katie", "Nathan", "Hannah", "Zachary"]
@@ -28,32 +35,6 @@ def test_main():
         ss_list = create_secret_santa_list(people)
         print(generate_formatted_list(ss_list))
         print("\n\n")
-
-def validate_name(new_name, people):
-    if new_name in people:
-        return False
-    return True
-
-def create_secret_santa_list(from_people):
-    if len(from_people) < 2:
-        raise ValueError("Need at least 2 participants")
-    
-    to_people = from_people[:]
-
-    while True:
-        random.shuffle(to_people)
-        secret_santa_list = zip(from_people, to_people)
-        if all(a != b for a, b in secret_santa_list):
-            return dict(secret_santa_list)
-        else:
-            random.shuffle(to_people)
-
-def generate_formatted_list(secret_santa_list):
-    formatted_list = ""
-    for giver, reciever in secret_santa_list.items():
-        formatted_list += f"{giver} 👉 {reciever}\n"
-    
-    return formatted_list.strip()
 
 
 def clear_text():
