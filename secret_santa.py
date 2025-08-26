@@ -2,12 +2,31 @@ import random
 
 class Secret_Santa:
     def __init__(self, people=""):
-        self.people = self._string_to_list(people)
+        if isinstance(people, str):
+            self.people = self._string_to_list(people)
+        elif isinstance(people, list):
+            # Normalize and strip names in case they have spaces
+            self.people = [name.strip() for name in people if str(name).strip()]
+        else:
+            raise TypeError("People must be a string or a list of names")
+        
+        self.validate_names(self.people)
 
     def __add__(self, new_value):
         combined = self.people + self._string_to_list(new_value)
         self.validate_names(combined)
-        return self.people + self._string_to_list(new_value)
+        return Secret_Santa(combined)
+    
+    def __iadd__(self, new_value):
+        if isinstance(new_value, str):
+            self.people += self._string_to_list(new_value)
+        elif isinstance(new_value, list):
+            # Normalize and strip names in case they have spaces
+            self.people += [name.strip() for name in new_value if str(name).strip()]
+        else:
+            raise TypeError("People must be a string or a list of names")
+        
+        return self.validate_names(self.people)
     
     def __str__(self):
         return self.generate_formatted_list(self.people)
