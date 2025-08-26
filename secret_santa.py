@@ -30,12 +30,12 @@ class Secret_Santa:
             raise InsufficientNamesException("Need at least 2 participants")
         
         to_people = from_people[:]
-
-        while True:
-            random.shuffle(to_people)
-            pairs = list(zip(from_people, to_people))
-            if all(a != b for a, b in pairs):
-                return pairs
+        n = len(to_people)
+        
+        for i in range(n-1, 0, -1):
+            j = random.randrange(i)
+            to_people[i], to_people[j] = to_people[j], to_people[i]
+        return list(zip(from_people, to_people))
 
     def generate_formatted_list(self, from_people):
         secret_santa_list = self.create_secret_santa_list(from_people)
