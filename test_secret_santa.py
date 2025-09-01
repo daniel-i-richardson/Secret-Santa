@@ -131,8 +131,6 @@ def test_add_does_not_mutate_original():
     _ = ss + "Charlie"
     assert ss.people == ["Alice", "Bob"] # original unchanged
 
-
-
 # ---------- __str__ ---------- #
 def test_str_shape_only_due_to_randomness(ss):
     random.seed(777)
@@ -141,3 +139,10 @@ def test_str_shape_only_due_to_randomness(ss):
     lines = s.splitlines()
     assert len(lines) == 4
     assert all(re.match(r".+\s👉\s.+", line) for line in lines)
+
+# ---------- Tipping the scales ---------- #
+def test_tipping_the_scales():
+    ss = Secret_Santa(["Alice", "Bob", "Charlie", "Dana", "Evelyn", "Franklin"])
+    ss.set_pair("Evelyn", "Franklin")
+    list = ss.create_secret_santa_list(ss.people)
+    assert ("Evelyn", "Franklin") in list

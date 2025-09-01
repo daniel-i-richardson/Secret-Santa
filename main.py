@@ -6,10 +6,12 @@ def main():
     
     while True:
         person = ""
+        print("Menu:\n1: View paired names\n2: Add name pair\n3: Delete name pair")
         if len(ss.people) > 0:
             print("Secret Santas: " + ", ".join(ss.people))
 
         try:
+            print("")
             person = input("Enter name: ").strip()
             ss.append(person)
 

@@ -10,6 +10,7 @@ class Secret_Santa:
         else:
             raise TypeError("People must be a string or a list of names")
         
+        self.__pairs = {}
         self.validate_names(self.people)
 
     def __add__(self, new_value):
@@ -44,6 +45,30 @@ class Secret_Santa:
             raise DuplicateNameException("Duplicate names were detected")
         return True
 
+    def set_pair(self, giver, recipient):
+        if giver == recipient:
+            raise ValueError("Giver and recipient must be different")
+        if giver not in self.people or recipient not in self.people:
+            raise ValueError("Both names must be in the unpaired pool")
+        if giver in self.__pairs:
+            raise ValueError(f"{giver} is already paired")
+        if recipient in self.__pairs.values():
+            raise ValueError(f"{recipient} is already assigned as a recipient")
+        
+        self.__pairs[giver] = recipient
+        self.people.remove(giver)
+        self.people.remove(recipient)
+
+    def delete_pair(self, giver):
+        recipient = self.__pairs[giver]
+        
+        self.people.append(giver)
+        self.people.append(recipient)
+        self.__pairs.pop[giver]
+
+    def view_pairs(self):
+        return self.__pairs
+
     def create_secret_santa_list(self, from_people):
         if len(from_people) < 2:
             raise InsufficientNamesException("Need at least 2 participants")
@@ -51,9 +76,12 @@ class Secret_Santa:
         to_people = from_people[:]
         n = len(to_people)
         
-        for i in range(n-1, 0, -1):
+        for i in range(n-1, 0, -1):            
             j = random.randrange(i)
             to_people[i], to_people[j] = to_people[j], to_people[i]
+        for g, r in self.__pairs.items():
+            from_people.append(g)
+            to_people.append(r)
         return list(zip(from_people, to_people))
 
     def generate_formatted_list(self, from_people):
