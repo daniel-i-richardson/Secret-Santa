@@ -5,29 +5,42 @@ def main():
     ss = Secret_Santa()
     
     while True:
-        person = ""
+        user_input = ""
         print("Menu:\n1: View paired names\n2: Add name pair\n3: Delete name pair")
         if len(ss.people) > 0:
             print("Secret Santas: " + ", ".join(ss.people))
-
-        try:
-            print("")
-            person = input("Enter name: ").strip()
-            ss.append(person)
-
-            clear_text()
-        except DuplicateNameException:
-            print("You're attempting to add a name that already exists in the Secret Santa list.")
         
-        if person == "":
-            try:
-                print(ss)
-                break
-            except InsufficientNamesException:
-                print("Your Secret Santa list must contain two or more participants")
+        user_input = input("Enter name: ").strip()
+        match user_input:
+            case "1":
+                add_pair()
+            case "2":
+                delete_pair()
+            case "2":
+                view_pair()
+            case "":
+                try:
+                    print(ss)
+                    break
+                except InsufficientNamesException:
+                    print("Your Secret Santa list must contain two or more participants")
+            case _:
+                try:                    
+                    ss.append(user_input)
+                    clear_text()
+                except DuplicateNameException:
+                    print("You're attempting to add a name that already exists in the Secret Santa list.")
+            
 
         
-        
+def add_pair():
+    #Code Here
+
+def view_pair():
+    #Code Here
+
+def delete_pair():
+    #Code Here
 
 
 def test_main():
