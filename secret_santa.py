@@ -64,7 +64,7 @@ class Secret_Santa:
         
         self.people.append(giver)
         self.people.append(recipient)
-        self.__pairs.pop[giver]
+        self.__pairs.pop(giver)
 
     def view_pairs(self):
         return self.__pairs
@@ -83,12 +83,15 @@ class Secret_Santa:
             from_people.append(g)
             to_people.append(r)
         return list(zip(from_people, to_people))
+    
+    def generate_formatted_string(self, giver, receiver) -> str:
+        return f"{giver} 👉 {receiver}\n"
 
     def generate_formatted_list(self, from_people):
         secret_santa_list = self.create_secret_santa_list(from_people)
         formatted_list = ""
         for giver, receiver in secret_santa_list:
-            formatted_list += f"{giver} 👉 {receiver}\n"
+            formatted_list += self.generate_formatted_string(giver, receiver)
         
         return formatted_list.strip()
     

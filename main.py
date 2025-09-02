@@ -13,11 +13,12 @@ def main():
         user_input = input("Enter name: ").strip()
         match user_input:
             case "1":
-                add_pair()
+                view_pairs(ss)
             case "2":
-                delete_pair()
-            case "2":
-                view_pair()
+                add_pair(ss)
+                clear_text()
+            case "3":
+                delete_pair(ss)
             case "":
                 try:
                     print(ss)
@@ -33,14 +34,26 @@ def main():
             
 
         
-def add_pair():
-    #Code Here
+def add_pair(ss: Secret_Santa):
+    while True:
+        giver = input("Enter giver: ").strip()
+        recipient = input("Enter recipient: ").strip()
 
-def view_pair():
-    #Code Here
+        if giver not in ss.people and recipient not in ss.people:
+            print("Giver/Receiver names are not valid. Please try again.")
+        else:
+            ss.set_pair(giver, recipient)
+            break
 
-def delete_pair():
-    #Code Here
+def view_pairs(ss: Secret_Santa):
+    print("Giver/Recipient Pairs:\n")
+    pair_list = ss.view_pairs()
+    for giver, recipient in pair_list.items():
+        print(ss.generate_formatted_string(giver, recipient))
+
+def delete_pair(ss: Secret_Santa):
+    giver = input("Enter giver: ").strip()
+    ss.delete_pair(giver)
 
 
 def test_main():
