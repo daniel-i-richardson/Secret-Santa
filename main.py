@@ -55,16 +55,6 @@ def delete_pair(ss: Secret_Santa):
     giver = input("Enter giver: ").strip()
     ss.delete_pair(giver)
 
-
-def test_main():
-    people = ["Jim", "Brenda", "Katie", "Nathan", "Hannah", "Zachary"]
-
-    for i in range(10):
-        ss_list = create_secret_santa_list(people)
-        print(generate_formatted_list(ss_list))
-        print("\n\n")
-
-
 def clear_text():
     os.system('cls' if os.name=='nt' else 'clear')
 
